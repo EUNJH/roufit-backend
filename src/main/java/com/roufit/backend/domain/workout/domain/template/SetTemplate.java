@@ -31,8 +31,18 @@ public class SetTemplate extends BaseEntity {
 
     private int goalTime;
 
+    private int offset;
+
     @Enumerated(value = EnumType.STRING)
     private ExerciseType type;
 
     private int additionalWeight;
+
+    public void increasingPerformance() {
+        if (type.equals(ExerciseType.COUNT)) {
+            goalRepetition += offset;
+            return;
+        }
+        goalTime += offset;
+    }
 }

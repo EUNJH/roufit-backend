@@ -4,11 +4,14 @@ import com.roufit.backend.domain.member.domain.Member;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "workout_record")
 public class WorkoutRecord extends BaseEntity {
@@ -32,4 +35,15 @@ public class WorkoutRecord extends BaseEntity {
     private LocalDateTime endTime;
 
     private boolean isCompleted;
+
+    @Builder
+    public WorkoutRecord(Member member, WorkoutTemplate workoutTemplate, long duration,
+                         LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
+        this.member = member;
+        this.workoutTemplate = workoutTemplate;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isCompleted = isCompleted;
+    }
 }
