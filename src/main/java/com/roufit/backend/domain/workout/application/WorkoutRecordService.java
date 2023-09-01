@@ -1,6 +1,6 @@
 package com.roufit.backend.domain.workout.application;
 
-import com.roufit.backend.domain.member.domain.Member;
+import com.roufit.backend.domain.member.domain.User;
 import com.roufit.backend.domain.workout.dao.SetRecordRepository;
 import com.roufit.backend.domain.workout.dao.WorkoutRecordRepository;
 import com.roufit.backend.domain.workout.domain.record.SetRecord;
@@ -24,10 +24,10 @@ public class WorkoutRecordService {
     private final SetRecordRepository setRecordRepository;
 
     @Transactional
-    public void saveWorkoutRecord(WorkoutRecordRequest request, Member member) {
+    public void saveWorkoutRecord(WorkoutRecordRequest request, User user) {
 
         WorkoutRecord workoutRecord = request.getWorkoutRecord(
-                member, workoutTemplateService.findWorkoutTemplateById(request.getWorkoutId())
+                user, workoutTemplateService.findWorkoutTemplateById(request.getWorkoutId())
         );
         workoutRecordRepository.save(workoutRecord);
         saveSetRecords(workoutRecord, request.getSetRecordRequests());

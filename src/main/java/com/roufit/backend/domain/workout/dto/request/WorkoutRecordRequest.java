@@ -1,7 +1,6 @@
 package com.roufit.backend.domain.workout.dto.request;
 
-import com.roufit.backend.domain.member.domain.Member;
-import com.roufit.backend.domain.workout.domain.record.SetRecord;
+import com.roufit.backend.domain.member.domain.User;
 import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import lombok.*;
@@ -21,9 +20,9 @@ public class WorkoutRecordRequest {
 
     List<SetRecordRequest> setRecordRequests = new ArrayList<>();
 
-    public WorkoutRecord getWorkoutRecord(Member member, WorkoutTemplate workoutTemplate) {
+    public WorkoutRecord getWorkoutRecord(User user, WorkoutTemplate workoutTemplate) {
         return WorkoutRecord.builder()
-                .member(member)
+                .user(user)
                 .workoutTemplate(workoutTemplate)
                 .duration(duration)
                 .startTime(startTime)

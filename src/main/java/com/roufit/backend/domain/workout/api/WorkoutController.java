@@ -1,6 +1,6 @@
 package com.roufit.backend.domain.workout.api;
 
-import com.roufit.backend.domain.member.domain.Member;
+import com.roufit.backend.domain.member.domain.User;
 import com.roufit.backend.domain.workout.application.WorkoutRecordService;
 import com.roufit.backend.domain.workout.dto.request.WorkoutRecordRequest;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class WorkoutController {
     private final WorkoutRecordService workoutRecordService;
 
     @PostMapping
-    public ResponseEntity<?> saveRecord(WorkoutRecordRequest request, Member member) {
-        workoutRecordService.saveWorkoutRecord(request, member);
+    public ResponseEntity<?> saveRecord(WorkoutRecordRequest request, User user) {
+        workoutRecordService.saveWorkoutRecord(request, user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

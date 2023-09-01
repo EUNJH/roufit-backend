@@ -1,6 +1,6 @@
 package com.roufit.backend.domain.workout.domain.record;
 
-import com.roufit.backend.domain.member.domain.Member;
+import com.roufit.backend.domain.member.domain.User;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -22,7 +22,7 @@ public class WorkoutRecord extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_template_id")
@@ -37,9 +37,9 @@ public class WorkoutRecord extends BaseEntity {
     private boolean isCompleted;
 
     @Builder
-    public WorkoutRecord(Member member, WorkoutTemplate workoutTemplate, long duration,
+    public WorkoutRecord(User user, WorkoutTemplate workoutTemplate, long duration,
                          LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
-        this.member = member;
+        this.user = user;
         this.workoutTemplate = workoutTemplate;
         this.duration = duration;
         this.startTime = startTime;
