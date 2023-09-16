@@ -17,6 +17,7 @@ public class Exercise extends BaseEntity {
     @Column(name = "exercise_id")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String description;

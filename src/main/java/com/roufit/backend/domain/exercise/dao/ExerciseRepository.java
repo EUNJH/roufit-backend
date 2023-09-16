@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long>, ExerciseRepositoryCustom {
     List<Exercise> findByIdIn(List<Long> ids);
+    boolean existsByName(String name);
 }

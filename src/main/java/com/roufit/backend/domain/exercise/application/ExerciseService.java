@@ -20,6 +20,10 @@ public class ExerciseService {
 
     @Transactional
     public void create(ExerciseRequest dto) {
+        if(exerciseRepository.existsByName(dto.getName())) {
+            throw new IllegalArgumentException(); //TODO 이미 존재하는 운동
+        }
+
         Exercise newExercise = dto.toEntity();
         exerciseRepository.save(newExercise);
         exerciseCategoryService.create(newExercise, dto.getCategory());
