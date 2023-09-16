@@ -1,8 +1,8 @@
 package com.roufit.backend.global.security.oauth2.service;
 
-import com.roufit.backend.domain.member.dao.UserRepository;
-import com.roufit.backend.domain.member.domain.SocialType;
-import com.roufit.backend.domain.member.domain.User;
+import com.roufit.backend.domain.user.dao.UserRepository;
+import com.roufit.backend.domain.user.domain.SocialType;
+import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.global.security.oauth2.CustomOAuth2User;
 import com.roufit.backend.global.security.oauth2.OAuthAttributes;
 import lombok.RequiredArgsConstructor;

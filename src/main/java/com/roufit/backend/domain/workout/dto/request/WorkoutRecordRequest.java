@@ -1,8 +1,8 @@
 package com.roufit.backend.domain.workout.dto.request;
 
-import com.roufit.backend.domain.member.domain.User;
-import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
-import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
+import com.roufit.backend.domain.user.domain.User;
+import com.roufit.backend.domain.workout.domain.WorkoutRecord;
+import com.roufit.backend.domain.workout.domain.WorkoutTemplate;
 import lombok.*;
 
 import java.time.LocalDateTime;

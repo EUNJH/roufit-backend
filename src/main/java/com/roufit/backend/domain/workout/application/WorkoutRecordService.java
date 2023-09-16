@@ -1,11 +1,12 @@
 package com.roufit.backend.domain.workout.application;
 
-import com.roufit.backend.domain.member.domain.User;
+import com.roufit.backend.domain.user.application.UserService;
+import com.roufit.backend.domain.user.dto.SecurityUserDto;
 import com.roufit.backend.domain.workout.dao.SetRecordRepository;
 import com.roufit.backend.domain.workout.dao.WorkoutRecordRepository;
-import com.roufit.backend.domain.workout.domain.record.SetRecord;
-import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
-import com.roufit.backend.domain.workout.domain.template.SetTemplate;
+import com.roufit.backend.domain.workout.domain.SetRecord;
+import com.roufit.backend.domain.workout.domain.WorkoutRecord;
+import com.roufit.backend.domain.workout.domain.SetTemplate;
 import com.roufit.backend.domain.workout.dto.request.SetRecordRequest;
 import com.roufit.backend.domain.workout.dto.request.WorkoutRecordRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,36 +20,21 @@ import java.util.List;
 @Service
 public class WorkoutRecordService {
 
-    private final WorkoutTemplateService workoutTemplateService;
     private final WorkoutRecordRepository workoutRecordRepository;
-    private final SetRecordRepository setRecordRepository;
+    private final WorkoutTemplateService workoutTemplateService;
+    private final SetRecordService setRecordService;
+    private final UserService userService;
 
     @Transactional
-    public void saveWorkoutRecord(WorkoutRecordRequest request, User user) {
+    public void createWorkoutRecord(WorkoutRecordRequest request,
+                                  SecurityUserDto userDto) {
 
         WorkoutRecord workoutRecord = request.getWorkoutRecord(
-                user, workoutTemplateService.findWorkoutTemplateById(request.getWorkoutId())
+                userService.findByEmail(userDto.getEmail()),
+                workoutTemplateService.findById(request.getWorkoutId())
         );
         workoutRecordRepository.save(workoutRecord);
-        saveSetRecords(workoutRecord, request.getSetRecordRequests());
+        setRecordService.createAll(workoutRecord, request.getSetRecordRequests());
     }
-
-    @Transactional
-    public void saveSetRecords(WorkoutRecord workoutRecord, List<SetRecordRequest> requests) {
-        List<SetRecord> setRecords = new ArrayList<>();
-
-        for(SetRecordRequest request:requests) {
-            setRecords.add(
-                    getSetRecord(workoutRecord, request)
-            );
-        }
-        setRecordRepository.saveAll(setRecords);
-    }
-
-    public SetRecord getSetRecord(WorkoutRecord workoutRecord, SetRecordRequest request) {
-        SetTemplate setTemplate = workoutTemplateService.findSetTemplateById(request.getSetTemplateId());
-        return request.mapToEntity(workoutRecord, setTemplate);
-    }
-
 
 }

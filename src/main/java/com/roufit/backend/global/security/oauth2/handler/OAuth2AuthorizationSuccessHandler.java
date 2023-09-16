@@ -1,6 +1,6 @@
 package com.roufit.backend.global.security.oauth2.handler;
 
-import com.roufit.backend.domain.member.application.TokenService;
+import com.roufit.backend.domain.user.application.TokenService;
 import com.roufit.backend.global.security.jwt.JwtService;
 import com.roufit.backend.global.security.oauth2.CustomOAuth2User;
 import jakarta.servlet.ServletException;

@@ -1,8 +1,8 @@
 package com.roufit.backend.domain.workout.dto.request;
 
-import com.roufit.backend.domain.workout.domain.record.SetRecord;
-import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
-import com.roufit.backend.domain.workout.domain.template.SetTemplate;
+import com.roufit.backend.domain.workout.domain.SetRecord;
+import com.roufit.backend.domain.workout.domain.WorkoutRecord;
+import com.roufit.backend.domain.workout.domain.SetTemplate;
 import lombok.*;
 
 @Data
