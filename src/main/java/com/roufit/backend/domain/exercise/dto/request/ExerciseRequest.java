@@ -14,7 +14,7 @@ public class ExerciseRequest {
     private String type;
     private Long category;
 
-    public Exercise getEntity() {
+    public Exercise toEntity() {
         return Exercise.builder()
                 .name(name)
                 .description(description)

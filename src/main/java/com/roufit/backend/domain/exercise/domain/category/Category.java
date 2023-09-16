@@ -1,5 +1,6 @@
 package com.roufit.backend.domain.exercise.domain.category;
 
+import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "category_id")

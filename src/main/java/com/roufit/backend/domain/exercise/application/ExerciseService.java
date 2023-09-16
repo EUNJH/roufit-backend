@@ -3,6 +3,7 @@ package com.roufit.backend.domain.exercise.application;
 import com.roufit.backend.domain.exercise.dao.ExerciseRepository;
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.exercise.dto.request.ExerciseRequest;
+import com.roufit.backend.domain.exercise.dto.response.ExerciseResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class ExerciseService {
 
     @Transactional
     public void create(ExerciseRequest dto) {
-        Exercise newExercise = dto.getEntity();
+        Exercise newExercise = dto.toEntity();
         exerciseRepository.save(newExercise);
         exerciseCategoryService.create(newExercise, dto.getCategory());
     }
@@ -31,5 +32,12 @@ public class ExerciseService {
         }
 
         return exercises;
+    }
+
+    public List<ExerciseResponse> findByCategory(Long categoryId) {
+        List<Exercise> exercises = exerciseRepository.findByCategory(categoryId);
+        return exercises.stream()
+                .map(Exercise::toDTO)
+                .toList();
     }
 }
