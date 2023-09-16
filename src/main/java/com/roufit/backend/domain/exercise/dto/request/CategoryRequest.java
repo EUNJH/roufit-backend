@@ -1,4 +1,4 @@
-package com.roufit.backend.domain.exercise.dto.category;
+package com.roufit.backend.domain.exercise.dto.request;
 
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import lombok.Data;
@@ -13,7 +13,6 @@ public class CategoryRequest {
         return Category.builder()
                 .parent(parent)
                 .title(title)
-                .level(parent.getLevel())
                 .build();
     }
 }

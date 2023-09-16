@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -29,6 +31,8 @@ public class Category {
 
     private CategoryLevel level;
 
+    private String order;
+
     @Builder
     public Category(Category parent,
                     Set<Category> children,
@@ -37,5 +41,16 @@ public class Category {
         this.children = children;
         this.title = title;
         this.level = CategoryLevel.nextLevel(parent.getLevel());
+        this.order = makeOrder(parent);
+    }
+
+    public List<Long> parseOrder() {
+        return Arrays.stream(order.split("\\."))
+                .map(Long::valueOf)
+                .toList();
+    }
+
+    private String makeOrder(Category parent) {
+        return parent.getOrder() + "." + parent.getId();
     }
 }

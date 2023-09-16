@@ -2,7 +2,12 @@ package com.roufit.backend.domain.exercise.domain.exercise;
 
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@Getter
 @Entity
 @Table(name = "exercise_category")
 public class ExerciseCategory {
@@ -19,4 +24,9 @@ public class ExerciseCategory {
     @JoinColumn(name = "category_id")
     Category category;
 
+    @Builder
+    public ExerciseCategory(Exercise exercise, Category category) {
+        this.exercise = exercise;
+        this.category = category;
+    }
 }

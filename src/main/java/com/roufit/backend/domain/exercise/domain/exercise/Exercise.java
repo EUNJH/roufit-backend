@@ -1,9 +1,12 @@
 package com.roufit.backend.domain.exercise.domain.exercise;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "exercise")
 public class Exercise {
@@ -21,4 +24,13 @@ public class Exercise {
 
     @Enumerated(value = EnumType.STRING)
     private ExerciseType type;
+
+    @Builder
+    public Exercise(String name, String description,
+                    Equipment equipment, ExerciseType type) {
+        this.name = name;
+        this.description = description;
+        this.equipment = equipment;
+        this.type = type;
+    }
 }
