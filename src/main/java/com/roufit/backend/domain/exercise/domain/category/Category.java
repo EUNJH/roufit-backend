@@ -28,8 +28,10 @@ public class Category extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private Set<Category> children = new LinkedHashSet<>();
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private CategoryLevel level;
 
     private String order;

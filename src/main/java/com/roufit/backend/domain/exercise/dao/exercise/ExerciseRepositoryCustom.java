@@ -1,4 +1,4 @@
-package com.roufit.backend.domain.exercise.dao;
+package com.roufit.backend.domain.exercise.dao.exercise;
 
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.global.common.Status;

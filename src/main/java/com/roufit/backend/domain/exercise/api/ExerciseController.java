@@ -23,9 +23,16 @@ public class ExerciseController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<ExerciseResponse>> getUnderCategory(@PathVariable Long categoryId) {
         List<ExerciseResponse> exercises = exerciseService.findByCategory(categoryId);
         return new ResponseEntity<>(exercises, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{exerciseName}")
+    public ResponseEntity<?> delete(@PathVariable String exerciseName) {
+        exerciseService.delete(exerciseName);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

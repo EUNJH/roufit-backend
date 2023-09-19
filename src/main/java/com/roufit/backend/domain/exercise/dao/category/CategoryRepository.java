@@ -1,4 +1,4 @@
-package com.roufit.backend.domain.exercise.dao;
+package com.roufit.backend.domain.exercise.dao.category;
 
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

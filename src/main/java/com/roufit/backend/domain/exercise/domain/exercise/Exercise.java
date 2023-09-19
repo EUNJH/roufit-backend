@@ -22,9 +22,11 @@ public class Exercise extends BaseEntity {
 
     private String description;
 
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Equipment equipment;
 
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ExerciseType type;
 

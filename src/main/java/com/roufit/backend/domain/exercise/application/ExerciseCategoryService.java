@@ -1,6 +1,6 @@
 package com.roufit.backend.domain.exercise.application;
 
-import com.roufit.backend.domain.exercise.dao.ExerciseCategoryRepository;
+import com.roufit.backend.domain.exercise.dao.exercise.ExerciseCategoryRepository;
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.exercise.domain.exercise.ExerciseCategory;

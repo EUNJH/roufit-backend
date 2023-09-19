@@ -1,16 +1,15 @@
 package com.roufit.backend.domain.exercise.application;
 
-import com.roufit.backend.domain.exercise.dao.CategoryRepository;
+import com.roufit.backend.domain.exercise.dao.category.CategoryRepository;
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import com.roufit.backend.domain.exercise.dto.request.CategoryRequest;
+import com.roufit.backend.global.error.exception.EntityNotFoundException;
+import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,21 +27,22 @@ public class CategoryService {
     }
 
 
-    public List<Category> getAllById(Long categoryId) {
+    public List<Category> getAllById(final Long categoryId) {
         Category category = findById(categoryId);
         List<Long> ids = category.parseOrder();
         List<Category> categories = categoryRepository.findAllById(ids);
 
-        if(ids.size() != categories.size()) throw new NoSuchElementException(); //TODO 부모 카테고리가 다 존재하지는 않음
+        if(ids.size() != categories.size())
+            throw new EntityNotFoundException(ErrorCode.CATEGORY_PARENT_NOT_FOUND);
 
         categories.add(category);
         return categories;
     }
 
-
-
-    public Category findById(Long id) {
+    public Category findById(final Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(); //TODO 부모 카테고리가 존재하지 않는다는 에러
+                .orElseThrow(() -> new EntityNotFoundException(
+                        id + " not found", ErrorCode.CATEGORY_ID_NOT_FOUND
+                ));
     }
 }
