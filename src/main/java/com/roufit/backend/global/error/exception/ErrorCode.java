@@ -1,4 +1,4 @@
-package com.roufit.backend.global.error;
+package com.roufit.backend.global.error.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +8,20 @@ import lombok.Getter;
 public enum ErrorCode {
 
     /**
+     * Common
+     */
+    ENTITY_NOT_FOUND(400, "C001", "Entity Not Found"),
+    INVALID_INPUT_VALUE(400, "C002", "Invalid Input Value"),
+    INTERNAL_SERVER_ERROR(500, "C003", "Internal Server Error"),
+    VALUE_DUPLICATION(400, "C004", "Value Duplication"),
+
+    /**
      * Exercise Error
      */
-    NotFound(404, "", ""),
-
+    EXERCISE_NAME_DUPLICATION(400,"E001", "Exercise Name Duplication"),
+    EXERCISE_ID_NOT_FOUND(400,"E002", "Exercise Id Not Found"),
+    CATEGORY_PARENT_NOT_FOUND(400, "E003", "Category Parent Not Found"),
+    CATEGORY_ID_NOT_FOUND(400, "E004", "Category Id Entity Not Found"),
 
     /**
      * Template Error

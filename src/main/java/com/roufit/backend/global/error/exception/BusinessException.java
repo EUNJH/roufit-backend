@@ -1,4 +1,4 @@
-package com.roufit.backend.global.error;
+package com.roufit.backend.global.error.exception;
 
 import lombok.Getter;
 
