@@ -1,19 +1,18 @@
 package com.roufit.backend.global.error;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 public class BusinessException extends RuntimeException{
 
     private final ErrorCode errorCode;
-    private String message;
 
     public BusinessException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
 
-    public BusinessException(ErrorCode errorCode, String message) {
+    public BusinessException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }

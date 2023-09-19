@@ -2,6 +2,7 @@ package com.roufit.backend.domain.exercise.dao;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
+import com.roufit.backend.global.common.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,11 +17,12 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<Exercise> findByCategory(Long categoryId) {
+    public List<Exercise> findByCategoryAndStatus(Long categoryId, Status status) {
         return jpaQueryFactory.selectFrom(exercise)
                 .join(exerciseCategory)
                 .on(exercise.id.eq(exerciseCategory.id))
                 .where(exerciseCategory.id.eq(categoryId))
+                .where(exercise.status.eq(status))
                 .fetch();
     }
 }

@@ -1,9 +1,10 @@
 package com.roufit.backend.domain.exercise.dao;
 
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
+import com.roufit.backend.global.common.Status;
 
 import java.util.List;
 
 public interface ExerciseRepositoryCustom {
-    List<Exercise> findByCategory(Long categoryId);
+    List<Exercise> findByCategoryAndStatus(Long categoryId, Status status);
 }
