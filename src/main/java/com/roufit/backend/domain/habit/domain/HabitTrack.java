@@ -55,7 +55,7 @@ public class HabitTrack {
 
     private HabitTrack getRecentHabit(List<HabitTrack> habitTracks) {
         return habitTracks.stream()
-                .filter(habitTrack -> !habitTrack.recordDate.equals(LocalDate.now()))
+                .filter(habitTrack -> !habitTrack.recordDate.equals(recordDate))
                 .max(Comparator.comparing(HabitTrack::getRecordDate))
                 .orElse(null);
     }

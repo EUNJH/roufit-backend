@@ -4,6 +4,7 @@ import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.workout.domain.record.SetRecord;
 import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Schema(description = "워크아웃 기록 요청(이름)")
 @Data
 public class WorkoutRecordRequest {
 

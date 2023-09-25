@@ -53,8 +53,8 @@ public class SetRecord extends BaseEntity {
                      SetRecordRequest request) {
         this.workoutRecord = workoutRecord;
         setSetTemplateData(setTemplate);
-        this.isSuccess = request.isSuccess();
-        this.isCompleted = request.isCompleted();
+        this.isSuccess = request.getIsSuccess();
+        this.isCompleted = request.getIsCompleted();
     }
 
     private void setSetTemplateData(SetTemplate setTemplate) {
