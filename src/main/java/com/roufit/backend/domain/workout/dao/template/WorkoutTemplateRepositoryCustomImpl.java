@@ -1,14 +1,15 @@
-package com.roufit.backend.domain.workout.dao;
+package com.roufit.backend.domain.workout.dao.template;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.roufit.backend.domain.workout.domain.WorkoutTemplate;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.roufit.backend.domain.workout.domain.QSetTemplate.setTemplate;
-import static com.roufit.backend.domain.workout.domain.QWorkoutTemplate.workoutTemplate;
+import static com.roufit.backend.domain.workout.domain.template.QSetTemplate.setTemplate;
+import static com.roufit.backend.domain.workout.domain.template.QWorkoutTemplate.workoutTemplate;
+
 
 @RequiredArgsConstructor
 @Repository

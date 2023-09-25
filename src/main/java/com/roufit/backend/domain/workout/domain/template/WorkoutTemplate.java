@@ -1,4 +1,4 @@
-package com.roufit.backend.domain.workout.domain;
+package com.roufit.backend.domain.workout.domain.template;
 
 import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.workout.dto.response.SetTemplateResponse;
@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +25,19 @@ public class WorkoutTemplate extends BaseEntity {
 
     private String templateName;
 
-    private LocalDateTime recentPerformDate;
+    private LocalDate recentPerformDate;
 
     @OneToMany(mappedBy = "workoutTemplate")
     private List<SetTemplate> setTemplates = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @Builder
-    public WorkoutTemplate(String templateName, LocalDateTime recentPerformDate) {
+    public WorkoutTemplate(String templateName, User user) {
         this.templateName = templateName;
-        this.recentPerformDate = recentPerformDate;
+        this.user = user;
     }
 
     public WorkoutTemplateResponse toDto() {
@@ -49,5 +49,9 @@ public class WorkoutTemplate extends BaseEntity {
                 .recentPerformDate(recentPerformDate)
                 .setTemplateResponses(setTemplateResponses)
                 .build();
+    }
+
+    public void updatePerformDate() {
+        this.recentPerformDate = LocalDate.now();
     }
 }

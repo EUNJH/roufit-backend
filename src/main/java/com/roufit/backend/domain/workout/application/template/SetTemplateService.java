@@ -1,14 +1,16 @@
-package com.roufit.backend.domain.workout.application;
+package com.roufit.backend.domain.workout.application.template;
 
 
+import com.roufit.backend.domain.exercise.application.ExerciseFindService;
 import com.roufit.backend.domain.exercise.application.ExerciseService;
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
-import com.roufit.backend.domain.workout.dao.SetTemplateRepository;
-import com.roufit.backend.domain.workout.domain.SetTemplate;
-import com.roufit.backend.domain.workout.domain.WorkoutTemplate;
+import com.roufit.backend.domain.workout.dao.template.SetTemplateRepository;
+import com.roufit.backend.domain.workout.domain.template.SetTemplate;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.SetTemplateRequest;
-import com.roufit.backend.global.error.BusinessException;
-import com.roufit.backend.global.error.ErrorCode;
+import com.roufit.backend.global.error.exception.BusinessException;
+import com.roufit.backend.global.error.exception.EntityNotFoundException;
+import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,39 +23,35 @@ import java.util.NoSuchElementException;
 public class SetTemplateService {
 
     private final SetTemplateRepository setTemplateRepository;
-    private final ExerciseService exerciseService;
+    private final ExerciseFindService exerciseFindService;
 
     @Transactional
     public void createSetTemplates(List<SetTemplateRequest> requests,
                                              WorkoutTemplate workoutTemplate) {
-        List<Long> exerciseIds = requests.stream()
-                .map(SetTemplateRequest::getExerciseId)
-                .toList();
-        List<Exercise> exercises = exerciseService.findByIds(exerciseIds);
-
-        if(exercises.isEmpty()) {
-            throw new NoSuchElementException("해당 운동이 없습니다.");
-        }
 
         List<SetTemplate> setTemplates = requests.stream()
                 .map(request ->
-                    request.toEntity(workoutTemplate,
-                            extractExercise(request, exercises)
-                            )
+                        SetTemplate.builder()
+                                .workoutTemplate(workoutTemplate)
+                                .request(request)
+                                .exercise(exerciseFindService.getReferenceById(request.getExerciseId()))
+                                .build()
                 )
                 .toList();
 
         setTemplateRepository.saveAll(setTemplates);
     }
 
-    private Exercise extractExercise(SetTemplateRequest request, List<Exercise> exercises) {
-        return exercises.stream()
-                .filter(exercise -> exercise.getId().equals(request.getExerciseId()))
-                .findAny().orElseThrow(NoSuchElementException::new);
-    }
-
     public SetTemplate findById(Long id) {
         return setTemplateRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_LAST_SET_TEMPLATE));
+                .orElseThrow(() -> new BusinessException(ErrorCode.SET_TEMPLATE_NOT_FOUND));
+    }
+
+    public List<SetTemplate> findAllByIds(final List<Long> ids) {
+        List<SetTemplate> setTemplates = setTemplateRepository.findByIdIn(ids);
+        if(setTemplates.size() != ids.size()) {
+            throw new EntityNotFoundException(ErrorCode.SET_TEMPLATE_NOT_FOUND);
+        }
+        return setTemplates;
     }
 }

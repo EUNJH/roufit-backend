@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long>, ExerciseRepositoryCustom {
-    List<Exercise> findByIdIn(List<Long> ids);
-    List<Exercise> findByIdInAndStatus(List<Long> ids, Status status);
+
     boolean existsByName(String name);
     Optional<Exercise> findByName(String name);
 }

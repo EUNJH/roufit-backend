@@ -24,10 +24,18 @@ public enum ErrorCode {
     CATEGORY_ID_NOT_FOUND(400, "E004", "Category Id Entity Not Found"),
 
     /**
-     * Template Error
+     * Workout Error
      */
-    NOT_FOUND_LAST_WORKOUT_TEMPLATE(404, "GLOBAL_404_1", "워크아웃 템플릿을 찾을 수 없습니다."),
-    NOT_FOUND_LAST_SET_TEMPLATE(404, "GLOBAL_404_2", "세트 템플릿을 찾을 수 없습니다.");
+    WORKOUT_TEMPLATE_NOT_FOUND(400, "W001", "Workout Template Not Found"),
+    SET_TEMPLATE_NOT_FOUND(400, "W002", "Set Template Not Found"),
+
+
+
+    /**
+     * User Error
+     */
+    USER_EMAIL_NOT_FOUND(400, "U001", "User Email Not Found")
+    ;
 
     private final int status;
     private final String code;

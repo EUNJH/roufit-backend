@@ -1,14 +1,15 @@
-package com.roufit.backend.domain.workout.application;
+package com.roufit.backend.domain.workout.application.template;
 
 import com.roufit.backend.domain.user.application.UserService;
 import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.user.dto.SecurityUserDto;
-import com.roufit.backend.domain.workout.dao.WorkoutTemplateRepository;
-import com.roufit.backend.domain.workout.domain.WorkoutTemplate;
+import com.roufit.backend.domain.workout.dao.template.WorkoutTemplateRepository;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.WorkoutTemplateRequest;
 import com.roufit.backend.domain.workout.dto.response.WorkoutTemplateResponse;
-import com.roufit.backend.global.error.BusinessException;
-import com.roufit.backend.global.error.ErrorCode;
+import com.roufit.backend.global.error.exception.BusinessException;
+import com.roufit.backend.global.error.exception.EntityNotFoundException;
+import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,32 +27,37 @@ public class WorkoutTemplateService {
 
     @Transactional
     public void create(WorkoutTemplateRequest request, SecurityUserDto userDto) {
-        User user = userService.findByEmail(userDto.getEmail());
-        WorkoutTemplate newTemplate = request.toEntity(user);
+        User user = userService.getReferenceById(userDto.getId());
+        WorkoutTemplate newTemplate = WorkoutTemplate.builder()
+                .templateName(request.getTemplateName())
+                .user(user)
+                .build();
         workoutTemplateRepository.save(newTemplate);
 
         setTemplateService.createSetTemplates(request.getSetTemplates(), newTemplate);
     }
 
-    public WorkoutTemplateResponse getById(Long workoutTemplateId, SecurityUserDto userDto) {
-        WorkoutTemplate workoutTemplate =
-                workoutTemplateRepository.findByIdAndUserId(workoutTemplateId, userDto.getId())
-                        .orElseThrow(NoSuchElementException::new);
+    public WorkoutTemplateResponse findByUser(SecurityUserDto userDto) {
+        WorkoutTemplate workoutTemplate = workoutTemplateRepository
+                .findByUserId(userDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.valueOf(userDto.getId()),
+                        ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
+                ));
 
         return workoutTemplate.toDto();
     }
 
-    public List<WorkoutTemplateResponse> getAll(SecurityUserDto userDto) {
-        List<WorkoutTemplate> workoutTemplates = workoutTemplateRepository.findByUserId(userDto.getId());
-        return workoutTemplates.stream()
-                .map(WorkoutTemplate::toDto)
-                .toList();
+    public WorkoutTemplate findById(final Long id) {
+        return workoutTemplateRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.valueOf(id),
+                        ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
+                        )
+                );
     }
 
-    public WorkoutTemplate findById(Long id) {
-        return workoutTemplateRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_LAST_WORKOUT_TEMPLATE));
-    }
+
 
 
 }

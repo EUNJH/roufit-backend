@@ -1,8 +1,9 @@
 package com.roufit.backend.domain.workout.dto.request;
 
 import com.roufit.backend.domain.user.domain.User;
-import com.roufit.backend.domain.workout.domain.WorkoutRecord;
-import com.roufit.backend.domain.workout.domain.WorkoutTemplate;
+import com.roufit.backend.domain.workout.domain.record.SetRecord;
+import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,21 +14,16 @@ import java.util.List;
 public class WorkoutRecordRequest {
 
     private Long workoutId;
-    private long duration;
+    private Integer duration;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private boolean isCompleted;
+    private Boolean isCompleted;
 
     List<SetRecordRequest> setRecordRequests = new ArrayList<>();
 
-    public WorkoutRecord getWorkoutRecord(User user, WorkoutTemplate workoutTemplate) {
-        return WorkoutRecord.builder()
-                .user(user)
-                .workoutTemplate(workoutTemplate)
-                .duration(duration)
-                .startTime(startTime)
-                .endTime(endTime)
-                .isCompleted(isCompleted)
-                .build();
+    public List<Long> getAllSetTemplateIds() {
+        return setRecordRequests.stream()
+                .map(SetRecordRequest::getSetTemplateId)
+                .toList();
     }
 }

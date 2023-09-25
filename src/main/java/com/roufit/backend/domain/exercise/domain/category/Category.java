@@ -34,6 +34,7 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private CategoryLevel level;
 
+    @Column(name = "category_order")
     private String order;
 
     @Builder

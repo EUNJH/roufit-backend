@@ -1,7 +1,8 @@
-package com.roufit.backend.domain.workout.domain;
+package com.roufit.backend.domain.workout.domain.template;
 
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.exercise.domain.exercise.ExerciseType;
+import com.roufit.backend.domain.workout.dto.request.SetTemplateRequest;
 import com.roufit.backend.domain.workout.dto.response.SetTemplateResponse;
 import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -27,19 +28,19 @@ public class SetTemplate extends BaseEntity {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
-    private int setCount;
+    private Integer setCount;
 
-    private int restPeriod;
+    private Integer restPeriod;
 
-    private int goalRepetition;
+    private Integer goalRepetition;
 
-    private int goalTime;
+    private Integer goalTime;
 
-    private int increaseOffset;
+    private Integer increaseOffset;
 
-    private int additionalWeight;
+    private Integer additionalWeight;
 
-    public void increasingPerformance() {
+    public void increaseIntensity() {
         if (exercise.getType().equals(ExerciseType.COUNT)) {
             goalRepetition += increaseOffset;
             return;
@@ -49,17 +50,15 @@ public class SetTemplate extends BaseEntity {
 
     @Builder
     public SetTemplate(WorkoutTemplate workoutTemplate, Exercise exercise,
-                       int setCount, int restPeriod,
-                       int goalRepetition, int goalTime,
-                       int increaseOffset, int additionalWeight) {
+                       SetTemplateRequest request) {
         this.workoutTemplate = workoutTemplate;
         this.exercise = exercise;
-        this.setCount = setCount;
-        this.restPeriod = restPeriod;
-        this.goalRepetition = goalRepetition;
-        this.goalTime = goalTime;
-        this.increaseOffset = increaseOffset;
-        this.additionalWeight = additionalWeight;
+        this.setCount = request.getSetCount();
+        this.restPeriod = request.getRestPeriod();
+        this.goalRepetition = request.getGoalRepetition();
+        this.goalTime = request.getGoalTime();
+        this.increaseOffset = request.getIncreaseOffset();
+        this.additionalWeight = request.getAdditionalWeight();
     }
 
     public SetTemplateResponse toDto() {
