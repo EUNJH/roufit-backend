@@ -26,8 +26,23 @@ public class ErrorResponse {
         this.errors = new ArrayList<>();
     }
 
+    public ErrorResponse(final ErrorCode code, List<FieldError> errors) {
+        this.message = code.getMessage();
+        this.status = code.getStatus();
+        this.code = code.getCode();
+        this.errors = errors;
+    }
+
     public static ErrorResponse of(final ErrorCode code) {
         return new ErrorResponse(code);
+    }
+
+    public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
+        return new ErrorResponse(code, FieldError.of(bindingResult));
+    }
+
+    public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
+        return new ErrorResponse(code, errors);
     }
 
     @Getter

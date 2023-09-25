@@ -33,14 +33,13 @@ public class HabitTrack {
     private User user;
 
     @Builder
-    public HabitTrack(List<HabitTrack> lastThreeDays, Boolean isCompleteWorkout, User user) {
-        this.recordDate = LocalDate.now();
+    public HabitTrack(LocalDate recordDate, Boolean isCompleteWorkout, User user) {
+        this.recordDate = recordDate;
         this.isCompleteWorkout = isCompleteWorkout;
-        updateConsecutiveDays(lastThreeDays);
         this.user = user;
     }
 
-    private void updateConsecutiveDays(List<HabitTrack> lastThreeDays) {
+    public void updateConsecutiveDays(List<HabitTrack> lastThreeDays) {
         HabitTrack recentHabit = getRecentHabit(lastThreeDays);
         if(recentHabit == null) {
             this.consecutiveDays = 1;

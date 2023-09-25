@@ -36,7 +36,7 @@ public class WorkoutRecordService {
         template.updatePerformDate();
         workoutRecordRepository.save(workoutRecord);
         setRecordService.createAll(workoutRecord, request);
-        habitTrackService.createAfterWorkout(request.getIsCompleted(), user);
+        habitTrackService.createAfterWorkout(workoutRecord, user);
     }
 
 }

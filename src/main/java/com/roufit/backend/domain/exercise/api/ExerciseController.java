@@ -7,6 +7,7 @@ import com.roufit.backend.domain.exercise.dto.response.ExerciseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ExerciseController {
     private final ExerciseFindService exerciseFindService;
 
     @PostMapping
-    public ResponseEntity<?> create(ExerciseRequest dto) {
+    public ResponseEntity<?> create(@RequestBody @Validated ExerciseRequest dto) {
         exerciseService.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

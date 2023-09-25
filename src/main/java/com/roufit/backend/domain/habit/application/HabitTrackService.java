@@ -6,6 +6,7 @@ import com.roufit.backend.domain.habit.dto.HabitResponse;
 import com.roufit.backend.domain.user.application.UserService;
 import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.user.dto.SecurityUserDto;
+import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,14 @@ public class HabitTrackService {
     private final UserService userService;
 
     @Transactional
-    public void createAfterWorkout(boolean isComplete, User user) {
+    public void createAfterWorkout(WorkoutRecord workoutRecord, User user) {
         List<HabitTrack> lastThreeDays = habitTrackRepository.findLastThreeDays(user);
         HabitTrack habitTrack = HabitTrack.builder()
-                .isCompleteWorkout(isComplete)
-                .lastThreeDays(lastThreeDays)
+                .isCompleteWorkout(workoutRecord.getIsCompleted())
+                .recordDate(workoutRecord.getStartTime().toLocalDate())
                 .user(user)
                 .build();
+        habitTrack.updateConsecutiveDays(lastThreeDays);
         habitTrackRepository.save(habitTrack);
     }
 

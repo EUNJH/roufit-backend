@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public class WorkoutTemplateController {
     private final WorkoutTemplateService workoutTemplateService;
 
     @PostMapping
-    public ResponseEntity<?> create(WorkoutTemplateRequest request,
-                                                   @AuthenticationPrincipal SecurityUserDto userDto) {
+    public ResponseEntity<?> create(@RequestBody @Validated WorkoutTemplateRequest request,
+                                    @AuthenticationPrincipal SecurityUserDto userDto) {
 
         workoutTemplateService.create(request, userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
