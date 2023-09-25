@@ -1,5 +1,6 @@
 package com.roufit.backend.domain.exercise.api;
 
+import com.roufit.backend.domain.exercise.application.ExerciseFindService;
 import com.roufit.backend.domain.exercise.application.ExerciseService;
 import com.roufit.backend.domain.exercise.dto.request.ExerciseRequest;
 import com.roufit.backend.domain.exercise.dto.response.ExerciseResponse;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
+    private final ExerciseFindService exerciseFindService;
 
     @PostMapping
     public ResponseEntity<?> create(ExerciseRequest dto) {
@@ -25,7 +27,7 @@ public class ExerciseController {
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<ExerciseResponse>> getUnderCategory(@PathVariable Long categoryId) {
-        List<ExerciseResponse> exercises = exerciseService.findByCategory(categoryId);
+        List<ExerciseResponse> exercises = exerciseFindService.findByCategory(categoryId);
         return new ResponseEntity<>(exercises, HttpStatus.OK);
     }
 

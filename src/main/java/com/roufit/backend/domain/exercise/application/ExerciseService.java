@@ -32,25 +32,11 @@ public class ExerciseService {
         exerciseCategoryService.create(newExercise, dto.getCategory());
     }
 
-    public List<Exercise> findByIds(List<Long> exerciseIds) {
-        List<Exercise> exercises = exerciseRepository.findByIdIn(exerciseIds);
-        if(exerciseIds.size() != exercises.size())
-            throw new EntityNotFoundException(ErrorCode.EXERCISE_ID_NOT_FOUND);
-
-        return exercises;
-    }
-
-    public List<ExerciseResponse> findByCategory(Long categoryId) {
-        List<Exercise> exercises = exerciseRepository.findByCategoryAndStatus(categoryId, Status.ACTIVE);
-        return exercises.stream()
-                .map(Exercise::toDTO)
-                .toList();
-    }
-
     @Transactional
     public void delete(String exerciseName) {
         Exercise exercise = exerciseRepository.findByName(exerciseName)
                 .orElseThrow(() -> new EntityNotFoundException(exerciseName, ErrorCode.EXERCISE_NAME_DUPLICATION));
         exercise.remove();
     }
+
 }
