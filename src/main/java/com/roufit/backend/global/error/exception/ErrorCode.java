@@ -22,12 +22,14 @@ public enum ErrorCode {
     EXERCISE_ID_NOT_FOUND(400,"E002", "Exercise Id Not Found"),
     CATEGORY_PARENT_NOT_FOUND(400, "E003", "Category Parent Not Found"),
     CATEGORY_ID_NOT_FOUND(400, "E004", "Category Id Entity Not Found"),
+    NOT_EXIST_SUBCATEGORY(400, "E005", "Subcategory Not Exist"),
 
     /**
      * Workout Error
      */
     WORKOUT_TEMPLATE_NOT_FOUND(400, "W001", "Workout Template Not Found"),
-    SET_TEMPLATE_NOT_FOUND(400, "W002", "Set Template Not Found"),
+    USER_MORE_THAN_ONE_TEMPLATE(400, "W002", "User Cannot have More than One Template"),
+    SET_TEMPLATE_NOT_FOUND(400, "W003", "Set Template Not Found"),
 
 
 

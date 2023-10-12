@@ -37,7 +37,7 @@ public class ExerciseController {
         return new ResponseEntity<>(exercises, HttpStatus.OK);
     }
 
-    @Operation(summary = "운동 이름으로 조회")
+    @Operation(summary = "운동 이름으로 삭제")
     @DeleteMapping("/{exerciseName}")
     public ResponseEntity<?> delete(@PathVariable String exerciseName) {
         exerciseService.delete(exerciseName);

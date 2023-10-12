@@ -31,6 +31,7 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoryLevel level;
 
@@ -55,6 +56,7 @@ public class Category extends BaseEntity {
     }
 
     private String makeOrder(Category parent) {
+        if(parent.getOrder().isEmpty()) return Long.toString(parent.getId());
         return parent.getOrder() + "." + parent.getId();
     }
 }

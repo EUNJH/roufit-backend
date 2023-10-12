@@ -26,17 +26,17 @@ public class WorkoutRecordService {
     @Transactional
     public void create(WorkoutRecordRequest request,
                                   SecurityUserDto userDto) {
-        WorkoutTemplate template = workoutTemplateService.findById(request.getWorkoutId());
+        WorkoutTemplate template = workoutTemplateService
+                .findTemplateAndSetById(request.getWorkoutId());
         User user = userService.getReferenceById(userDto.getId());
         WorkoutRecord workoutRecord = WorkoutRecord.builder()
                 .user(user)
                 .workoutTemplate(template)
                 .request(request)
                 .build();
-        template.updatePerformDate();
+        template.updatePerformDate(workoutRecord.getStartTime());
         workoutRecordRepository.save(workoutRecord);
-        setRecordService.createAll(workoutRecord, request);
+        setRecordService.createAll(workoutRecord, request, template);
         habitTrackService.createAfterWorkout(workoutRecord, user);
     }
-
 }

@@ -5,6 +5,7 @@ import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.exercise.domain.exercise.ExerciseType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
@@ -17,10 +18,10 @@ public class ExerciseRequest {
 
     private String description;
 
-    @NotBlank
+    @NotNull
     private Equipment equipment;
 
-    @NotBlank
+    @NotNull
     private ExerciseType type;
 
     @PositiveOrZero

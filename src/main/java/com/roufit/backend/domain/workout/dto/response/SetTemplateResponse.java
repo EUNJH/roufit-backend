@@ -10,8 +10,8 @@ public class SetTemplateResponse {
     private Long id;
     private int setCount;
     private int restPeriod;
-    private int goalRepetition;
-    private int goalTime;
+    private Integer goalRepetition;
+    private Integer goalTime;
     private int additionalWeight;
 
 }

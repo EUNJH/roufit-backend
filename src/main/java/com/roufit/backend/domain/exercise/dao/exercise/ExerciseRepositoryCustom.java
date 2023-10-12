@@ -6,5 +6,5 @@ import com.roufit.backend.global.common.Status;
 import java.util.List;
 
 public interface ExerciseRepositoryCustom {
-    List<Exercise> findByCategoryAndStatus(Long categoryId, Status status);
+    List<Exercise> findByCategoryAndStatus(Long categoryId);
 }

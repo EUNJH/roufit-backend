@@ -8,15 +8,18 @@ import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.WorkoutTemplateRequest;
 import com.roufit.backend.domain.workout.dto.response.WorkoutTemplateResponse;
 import com.roufit.backend.global.error.exception.BusinessException;
+import com.roufit.backend.global.error.exception.DuplicateException;
 import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class WorkoutTemplateService {
@@ -27,6 +30,10 @@ public class WorkoutTemplateService {
 
     @Transactional
     public void create(WorkoutTemplateRequest request, SecurityUserDto userDto) {
+        if(workoutTemplateRepository.existsByUserId(userDto.getId())) {
+            throw new DuplicateException(userDto.getEmail(), ErrorCode.USER_MORE_THAN_ONE_TEMPLATE);
+        }
+
         User user = userService.getReferenceById(userDto.getId());
         WorkoutTemplate newTemplate = WorkoutTemplate.builder()
                 .templateName(request.getTemplateName())
@@ -48,16 +55,7 @@ public class WorkoutTemplateService {
         return workoutTemplate.toDto();
     }
 
-    public WorkoutTemplate findById(final Long id) {
-        return workoutTemplateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.valueOf(id),
-                        ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
-                        )
-                );
+    public WorkoutTemplate findTemplateAndSetById(final Long id) {
+        return workoutTemplateRepository.findTemplateAndSetById(id);
     }
-
-
-
-
 }

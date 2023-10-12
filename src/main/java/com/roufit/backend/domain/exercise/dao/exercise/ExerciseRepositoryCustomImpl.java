@@ -17,12 +17,11 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<Exercise> findByCategoryAndStatus(Long categoryId, Status status) {
+    public List<Exercise> findByCategoryAndStatus(Long categoryId) {
         return jpaQueryFactory.selectFrom(exercise)
-                .join(exerciseCategory)
-                .on(exercise.id.eq(exerciseCategory.id))
-                .where(exerciseCategory.id.eq(categoryId))
-                .where(exercise.status.eq(status))
+                .join(exerciseCategory).on(exercise.eq(exerciseCategory.exercise))
+                .where(exerciseCategory.category.id.eq(categoryId))
+                .where(exercise.status.eq(Status.ACTIVE))
                 .fetch();
     }
 }

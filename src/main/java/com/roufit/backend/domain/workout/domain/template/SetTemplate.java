@@ -28,16 +28,20 @@ public class SetTemplate extends BaseEntity {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+    @Column(nullable = false)
     private Integer setCount;
 
+    @Column(nullable = false)
     private Integer restPeriod;
 
     private Integer goalRepetition;
 
     private Integer goalTime;
 
+    @Column(nullable = false)
     private Integer increaseOffset;
 
+    @Column(nullable = false)
     private Integer additionalWeight;
 
     public void increaseIntensity() {

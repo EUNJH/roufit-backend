@@ -24,9 +24,14 @@ public class HabitTrack {
     @Column(nullable = false)
     private LocalDate recordDate;
 
+    @Column(nullable = false)
     private Boolean isCompleteWorkout;
 
+    @Column(nullable = false)
     private Integer consecutiveDays;
+
+    @Column(nullable = false)
+    private LocalDate consecutiveStartDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -43,10 +48,11 @@ public class HabitTrack {
         HabitTrack recentHabit = getRecentHabit(lastThreeDays);
         if(recentHabit == null) {
             this.consecutiveDays = 1;
+            this.consecutiveStartDate = this.recordDate;
             return;
         }
         this.consecutiveDays = calculateConsecutiveDays(recentHabit);
-
+        this.consecutiveStartDate = recentHabit.getConsecutiveStartDate();
     }
 
     private int calculateConsecutiveDays(HabitTrack recentHabit) {

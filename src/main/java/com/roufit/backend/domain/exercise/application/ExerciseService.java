@@ -3,16 +3,13 @@ package com.roufit.backend.domain.exercise.application;
 import com.roufit.backend.domain.exercise.dao.exercise.ExerciseRepository;
 import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.exercise.dto.request.ExerciseRequest;
-import com.roufit.backend.domain.exercise.dto.response.ExerciseResponse;
-import com.roufit.backend.global.common.Status;
+
 import com.roufit.backend.global.error.exception.DuplicateException;
 import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service

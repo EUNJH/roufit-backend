@@ -27,6 +27,7 @@ public class OAuth2AuthorizationSuccessHandler implements AuthenticationSuccessH
                                         HttpServletResponse response,
                                         Authentication authentication
     ) throws IOException, ServletException {
+        log.info("로그인 성공");
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         String accessToken = jwtService.generateToken(oAuth2User.getEmail());

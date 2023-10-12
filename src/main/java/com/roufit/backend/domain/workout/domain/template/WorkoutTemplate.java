@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class WorkoutTemplate extends BaseEntity {
                 .build();
     }
 
-    public void updatePerformDate() {
-        this.recentPerformDate = LocalDate.now();
+    public void updatePerformDate(LocalDateTime startDate) {
+        this.recentPerformDate = startDate.toLocalDate();
     }
 }

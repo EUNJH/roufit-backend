@@ -1,14 +1,11 @@
 package com.roufit.backend.domain.workout.application.record;
 
-import com.roufit.backend.domain.workout.application.template.SetTemplateService;
 import com.roufit.backend.domain.workout.dao.record.SetRecordRepository;
 import com.roufit.backend.domain.workout.domain.record.SetRecord;
 import com.roufit.backend.domain.workout.domain.template.SetTemplate;
 import com.roufit.backend.domain.workout.domain.record.WorkoutRecord;
-import com.roufit.backend.domain.workout.dto.request.SetRecordRequest;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.WorkoutRecordRequest;
-import com.roufit.backend.global.error.exception.ErrorCode;
-import com.roufit.backend.global.error.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +19,13 @@ import java.util.Optional;
 public class SetRecordService {
 
     private final SetRecordRepository setRecordRepository;
-    private final SetTemplateService setTemplateService;
 
     @Transactional
-    public void createAll(WorkoutRecord workoutRecord, WorkoutRecordRequest request) {
+    public void createAll(WorkoutRecord workoutRecord,
+                          WorkoutRecordRequest request,
+                          WorkoutTemplate template) {
+        List<SetTemplate> setTemplates = template.getSetTemplates();
         List<SetRecord> setRecords = new ArrayList<>();
-        List<SetTemplate> setTemplates =
-                setTemplateService.findAllByIds(request.getAllSetTemplateIds());
 
         for(SetTemplate setTemplate:setTemplates) {
             Optional<SetRecord> setRecord = request.getSetRecordRequests()
@@ -37,9 +34,13 @@ public class SetRecordService {
                     .map(r -> SetRecord.builder()
                             .workoutRecord(workoutRecord)
                             .setTemplate(setTemplate)
+                            .request(r)
                             .build())
                     .findFirst();
-            setRecord.ifPresent(setRecords::add);
+            setRecord.ifPresent(record -> {
+                record.checkIncreasingPerformance();
+                setRecords.add(record);
+            });
         }
 
         setRecordRepository.saveAll(setRecords);

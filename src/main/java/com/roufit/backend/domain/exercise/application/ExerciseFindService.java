@@ -16,7 +16,7 @@ public class ExerciseFindService {
     private final ExerciseRepository exerciseRepository;
 
     public List<ExerciseResponse> findByCategory(Long categoryId) {
-        List<Exercise> exercises = exerciseRepository.findByCategoryAndStatus(categoryId, Status.ACTIVE);
+        List<Exercise> exercises = exerciseRepository.findByCategoryAndStatus(categoryId);
         return exercises.stream()
                 .map(Exercise::toDTO)
                 .toList();
