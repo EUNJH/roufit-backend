@@ -1,7 +1,8 @@
 package com.roufit.backend.domain.workout.domain.record;
 
-import com.roufit.backend.domain.member.domain.User;
+import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
+import com.roufit.backend.domain.workout.dto.request.WorkoutRecordRequest;
 import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -28,22 +29,21 @@ public class WorkoutRecord extends BaseEntity {
     @JoinColumn(name = "workout_template_id")
     private WorkoutTemplate workoutTemplate;
 
-    private long duration;
+    private Integer duration;
 
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
 
-    private boolean isCompleted;
+    private Boolean isCompleted;
 
     @Builder
-    public WorkoutRecord(User user, WorkoutTemplate workoutTemplate, long duration,
-                         LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
+    public WorkoutRecord(User user, WorkoutTemplate workoutTemplate, WorkoutRecordRequest request) {
         this.user = user;
         this.workoutTemplate = workoutTemplate;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isCompleted = isCompleted;
+        this.duration = request.getDuration();
+        this.startTime = request.getStartTime();
+        this.endTime = request.getEndTime();
+        this.isCompleted = request.getIsCompleted();
     }
 }

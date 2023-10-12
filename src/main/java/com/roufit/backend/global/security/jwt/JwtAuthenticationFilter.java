@@ -1,9 +1,9 @@
 package com.roufit.backend.global.security.jwt;
 
-import com.roufit.backend.domain.member.application.TokenService;
-import com.roufit.backend.domain.member.dao.UserRepository;
-import com.roufit.backend.domain.member.domain.User;
-import com.roufit.backend.domain.member.dto.SecurityUserDto;
+import com.roufit.backend.domain.user.application.TokenService;
+import com.roufit.backend.domain.user.dao.UserRepository;
+import com.roufit.backend.domain.user.domain.User;
+import com.roufit.backend.domain.user.dto.SecurityUserDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -91,6 +91,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void saveAuthentication(User user) {
         log.info("Authentication context에 저장");
         SecurityUserDto userDto = SecurityUserDto.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())

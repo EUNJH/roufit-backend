@@ -1,8 +1,8 @@
 package com.roufit.backend.domain.workout.domain.record;
 
-import com.roufit.backend.domain.workout.domain.Exercise;
-import com.roufit.backend.domain.workout.domain.ExerciseType;
+import com.roufit.backend.domain.exercise.domain.exercise.Exercise;
 import com.roufit.backend.domain.workout.domain.template.SetTemplate;
+import com.roufit.backend.domain.workout.dto.request.SetRecordRequest;
 import com.roufit.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "set")
+@Table(name = "set_record")
 public class SetRecord extends BaseEntity {
 
     @Id @GeneratedValue
@@ -33,34 +33,28 @@ public class SetRecord extends BaseEntity {
     @JoinColumn(name = "set_template_id")
     private SetTemplate setTemplate;
 
-    private int setCount;
+    private Integer setCount;
 
-    private int restPeriod;
+    private Integer restPeriod;
 
-    private int goalRepetition;
+    private Integer goalRepetition;
 
-    private int goalTime;
+    private Integer goalTime;
 
-    @Enumerated(value = EnumType.STRING)
-    private ExerciseType type;
+    private Integer additionalWeight;
 
-    private int additionalWeight;
+    private Boolean isCompleted;
 
-    private String successSet;
-
-    private boolean isCompleted;
-
-    private boolean isSuccess;
+    private Boolean isSuccess;
 
     @Builder
-    public SetRecord(WorkoutRecord workoutRecord, Exercise exercise, SetTemplate setTemplate,
-                     String successSet, boolean isCompleted, boolean isSuccess) {
+    public SetRecord(WorkoutRecord workoutRecord,
+                     SetTemplate setTemplate,
+                     SetRecordRequest request) {
         this.workoutRecord = workoutRecord;
-        this.exercise = exercise;
         setSetTemplateData(setTemplate);
-        this.successSet = successSet;
-        this.isSuccess = checkSuccess(successSet);
-        this.isCompleted = isCompleted;
+        this.isSuccess = request.getIsSuccess();
+        this.isCompleted = request.getIsCompleted();
     }
 
     private void setSetTemplateData(SetTemplate setTemplate) {
@@ -69,20 +63,13 @@ public class SetRecord extends BaseEntity {
         this.restPeriod = setTemplate.getRestPeriod();
         this.goalRepetition = setTemplate.getGoalRepetition();
         this.goalTime = setTemplate.getGoalTime();
-        this.type = setTemplate.getType();
         this.additionalWeight = setTemplate.getAdditionalWeight();
-    }
-
-    public boolean checkSuccess(String successSet) {
-        return Arrays.stream(successSet.split("\\."))
-                .allMatch(s -> s.equals("1"));
+        this.exercise = setTemplate.getExercise();
     }
 
     public void checkIncreasingPerformance() {
         if(isSuccess) {
-            setTemplate.increasingPerformance();
+            setTemplate.increaseIntensity();
         }
     }
-
-
 }
