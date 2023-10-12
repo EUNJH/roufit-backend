@@ -48,6 +48,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar {
+    enabled=false
+}
+
 def querydslDir = "$buildDir/generated/querydsl"
 
 sourceSets {
@@ -61,3 +65,4 @@ tasks.withType(JavaCompile) {
 clean.doLast {
     file(querydslDir).deleteDir()
 }
+
