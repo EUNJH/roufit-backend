@@ -43,10 +43,14 @@ public class SecurityConfiguration {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers(
+                                        "/", "/swagger-ui/**",
+                                        "**.html", "**.css", "**.js",
+                                        "/swagger-resources/**", "/webjars/**", "/v3/api-docs/**"
+                                )
+                                .permitAll()
                                 .anyRequest().authenticated()
                 )
 

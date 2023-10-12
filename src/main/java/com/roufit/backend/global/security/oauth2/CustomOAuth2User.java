@@ -1,6 +1,6 @@
 package com.roufit.backend.global.security.oauth2;
 
-import com.roufit.backend.domain.member.domain.Role;
+import com.roufit.backend.domain.user.domain.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;

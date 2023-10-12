@@ -1,6 +1,6 @@
 package com.roufit.backend.global.security.oauth2.handler;
 
-import com.roufit.backend.domain.member.application.TokenService;
+import com.roufit.backend.domain.user.application.TokenService;
 import com.roufit.backend.global.security.jwt.JwtService;
 import com.roufit.backend.global.security.oauth2.CustomOAuth2User;
 import jakarta.servlet.ServletException;
@@ -27,6 +27,7 @@ public class OAuth2AuthorizationSuccessHandler implements AuthenticationSuccessH
                                         HttpServletResponse response,
                                         Authentication authentication
     ) throws IOException, ServletException {
+        log.info("로그인 성공");
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         String accessToken = jwtService.generateToken(oAuth2User.getEmail());

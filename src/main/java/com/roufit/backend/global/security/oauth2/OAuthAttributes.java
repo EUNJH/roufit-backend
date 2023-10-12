@@ -1,8 +1,8 @@
 package com.roufit.backend.global.security.oauth2;
 
-import com.roufit.backend.domain.member.domain.Role;
-import com.roufit.backend.domain.member.domain.SocialType;
-import com.roufit.backend.domain.member.domain.User;
+import com.roufit.backend.domain.user.domain.Role;
+import com.roufit.backend.domain.user.domain.SocialType;
+import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.global.security.oauth2.userinfo.GoogleOAuth2User;
 import com.roufit.backend.global.security.oauth2.userinfo.NaverOAuth2User;
 import com.roufit.backend.global.security.oauth2.userinfo.OAuth2UserInfo;
