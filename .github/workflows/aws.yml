@@ -50,10 +50,9 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: latest
       run: |
         chmod +x ./gradlew
         ./gradlew bootjar
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY" >> $GITHUB_OUTPUT
