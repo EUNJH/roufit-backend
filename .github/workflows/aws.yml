@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: Deploy to EC2
 
 on:
   push:
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build and Push
     runs-on: ubuntu-latest
     environment: production
 
@@ -56,3 +56,19 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: excuting remote ssh commands
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /home/ec2-user/spring
+            ./deploy.sh
+          
