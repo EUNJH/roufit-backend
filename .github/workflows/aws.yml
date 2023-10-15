@@ -60,6 +60,7 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6
