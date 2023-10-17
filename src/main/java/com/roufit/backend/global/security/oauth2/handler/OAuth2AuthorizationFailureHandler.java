@@ -27,5 +27,6 @@ public class OAuth2AuthorizationFailureHandler implements AuthenticationFailureH
         response.getWriter().write("소셜 로그인 실패");
 
         log.info("소셜 로그인에 실패했습니다. 에러 메시지 : {}", exception.getMessage());
+        log.info("로그인 실패 에러", exception);
     }
 }
