@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "workout_record")
 public class WorkoutRecord extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workout_record_id")
     private Long id;
 

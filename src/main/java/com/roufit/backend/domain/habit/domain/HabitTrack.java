@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "habit_level")
 public class HabitTrack {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "habit_level_id")
     private Long id;
 
