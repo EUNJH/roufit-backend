@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "exercise_category")
 public class ExerciseCategory {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exercise_category_id")
     private Long id;
 

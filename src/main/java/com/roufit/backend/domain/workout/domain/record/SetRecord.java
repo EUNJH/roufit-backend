@@ -17,7 +17,7 @@ import java.util.Arrays;
 @Table(name = "set_record")
 public class SetRecord extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "set_record_id")
     private Long id;
 

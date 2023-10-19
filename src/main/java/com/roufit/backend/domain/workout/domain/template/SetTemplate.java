@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "set_template")
 public class SetTemplate extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "set_template_id")
     private Long id;
 

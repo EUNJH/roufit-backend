@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "workout_template")
 public class WorkoutTemplate extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workout_template_id")
     private Long id;
 

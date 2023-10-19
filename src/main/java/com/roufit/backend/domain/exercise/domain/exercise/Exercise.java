@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "exercise")
 public class Exercise extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exercise_id")
     private Long id;
 
