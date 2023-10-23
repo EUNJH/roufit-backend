@@ -46,12 +46,7 @@ public class WorkoutTemplateService {
 
     public WorkoutTemplateResponse findByUser(SecurityUserDto userDto) {
         WorkoutTemplate workoutTemplate = workoutTemplateRepository
-                .findByUserId(userDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.valueOf(userDto.getId()),
-                        ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
-                ));
-
+                .findTemplateAndSetByUserId(userDto.getId());
         return workoutTemplate.toDto();
     }
 
