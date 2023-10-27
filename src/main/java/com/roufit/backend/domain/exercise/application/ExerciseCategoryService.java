@@ -15,7 +15,6 @@ import java.util.List;
 public class ExerciseCategoryService {
 
     private final ExerciseCategoryRepository exerciseCategoryRepository;
-    private final CategoryService categoryService;
 
     @Transactional
     public void create(Exercise newExercise, List<Category> categories) {
