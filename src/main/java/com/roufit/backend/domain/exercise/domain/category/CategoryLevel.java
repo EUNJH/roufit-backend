@@ -13,17 +13,14 @@ public enum CategoryLevel {
 
     CATEGORY3("소분류"),
     CATEGORY2("중분류"),
-    CATEGORY1("대분류"),
-    ROOT("루트")
+    CATEGORY1("대분류")
     ;
 
     public final String viewName;
 
-    public static CategoryLevel nextLevel(CategoryLevel parent) {
-        switch (parent) {
-            case ROOT -> {
-                return CATEGORY1;
-            }
+    public static CategoryLevel nextLevel(Category parent) {
+        if(parent == null) return CATEGORY1;
+        switch (parent.getLevel()) {
             case CATEGORY1 -> {
                 return CATEGORY2;
             }
