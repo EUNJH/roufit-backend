@@ -39,13 +39,14 @@ public class Category extends BaseEntity {
     private String order;
 
     @Builder
-    public Category(Category parent,
+    public Category(Long id, Category parent,
                     Set<Category> children,
                     String title) {
+        this.id = id;
         this.parent = parent;
         this.children = children;
         this.title = title;
-        this.level = CategoryLevel.nextLevel(parent.getLevel());
+        this.level = CategoryLevel.nextLevel(parent);
         this.order = makeOrder(parent);
     }
 
@@ -56,7 +57,8 @@ public class Category extends BaseEntity {
     }
 
     private String makeOrder(Category parent) {
-        if(parent.getOrder().isEmpty()) return Long.toString(parent.getId());
+        if(parent == null) return null;
+        if(parent.getOrder() == null) return Long.toString(parent.getId());
         return parent.getOrder() + "." + parent.getId();
     }
 }

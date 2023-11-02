@@ -3,10 +3,15 @@ package com.roufit.backend.domain.exercise.dto.request;
 import com.roufit.backend.domain.exercise.domain.category.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Schema(description = "카테고리 요청")
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class CategoryRequest {
 

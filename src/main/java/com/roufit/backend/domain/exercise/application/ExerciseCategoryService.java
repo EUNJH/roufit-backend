@@ -15,11 +15,10 @@ import java.util.List;
 public class ExerciseCategoryService {
 
     private final ExerciseCategoryRepository exerciseCategoryRepository;
-    private final CategoryService categoryService;
 
     @Transactional
-    public void create(Exercise newExercise, Long categoryId) {
-        List<Category> categories = categoryService.getAllById(categoryId);
+    public void create(Exercise newExercise, List<Category> categories) {
+
         List<ExerciseCategory> exerciseCategories =
                 categories.stream()
                         .map(category -> ExerciseCategory.builder()
