@@ -31,9 +31,9 @@ public class ExerciseController {
     }
 
     @Operation(summary = "해당 카테고리 운동 조회")
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ExerciseResponse>> getUnderCategory(@PathVariable Long categoryId) {
-        List<ExerciseResponse> exercises = exerciseFindService.findByCategory(categoryId);
+    @GetMapping
+    public ResponseEntity<List<ExerciseResponse>> getUnderCategory(@RequestParam Long category) {
+        List<ExerciseResponse> exercises = exerciseFindService.findByCategory(category);
         return new ResponseEntity<>(exercises, HttpStatus.OK);
     }
 
