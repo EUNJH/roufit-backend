@@ -6,6 +6,7 @@ import com.roufit.backend.domain.exercise.domain.exercise.ExerciseType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
@@ -16,18 +17,18 @@ import lombok.*;
 @AllArgsConstructor
 public class ExerciseRequest {
 
-    @NotBlank
+    @NotBlank(message = "운동 이름은 빈 값일 수 없습니다.")
     private String name;
 
     private String description;
 
-    @NotNull
+    @NotNull(message = "운동 장비는 널 값일 수 없습니다.")
     private Equipment equipment;
 
-    @NotNull
+    @NotNull(message = "운동 장비는 널 값일 수 없습니다.")
     private ExerciseType type;
 
-    @PositiveOrZero
+    @Positive(message = "카테고리 ID는 양수여야 합니다.")
     private Long category;
 
     public Exercise toEntity() {
