@@ -27,7 +27,7 @@ public class WorkoutRecordService {
     public void create(WorkoutRecordRequest request,
                                   SecurityUserDto userDto) {
         WorkoutTemplate template = workoutTemplateService
-                .findTemplateAndSetById(request.getWorkoutId());
+                .findById(request.getWorkoutId());
         User user = userService.getReferenceById(userDto.getId());
         WorkoutRecord workoutRecord = WorkoutRecord.builder()
                 .user(user)
