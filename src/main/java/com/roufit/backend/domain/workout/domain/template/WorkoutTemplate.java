@@ -36,9 +36,10 @@ public class WorkoutTemplate extends BaseEntity {
     private User user;
 
     @Builder
-    public WorkoutTemplate(String templateName, User user) {
+    public WorkoutTemplate(String templateName, User user, List<SetTemplate> setTemplates) {
         this.templateName = templateName;
         this.user = user;
+        this.setTemplates = setTemplates;
     }
 
     public WorkoutTemplateResponse toDto() {

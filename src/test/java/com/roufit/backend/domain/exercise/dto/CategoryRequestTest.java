@@ -19,7 +19,10 @@ class CategoryRequestTest extends ValidationTestInitializer<CategoryRequest> {
         List<String> errorMessages = validate(request);
 
         //then
-        assertThat(errorMessages).contains("0 이상이어야 합니다", "공백일 수 없습니다");
+        assertThat(errorMessages).contains(
+                "상위 카테고리 ID는 양수여야 합니다.",
+                "카테고리 제목은 빈 값일 수 없습니다."
+        );
     }
 
 }
