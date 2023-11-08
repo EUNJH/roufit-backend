@@ -36,7 +36,15 @@ public enum ErrorCode {
     /**
      * User Error
      */
-    USER_EMAIL_NOT_FOUND(400, "U001", "User Email Not Found")
+    USER_EMAIL_NOT_FOUND(400, "U001", "User Email Not Found"),
+
+    /**
+     * Token Error
+     */
+    NOT_ACCESS_TOKEN(400, "T001", "Not Contain AccessToken"),
+    EXPIRED_TOKEN(401, "T002", "Token is Expired"),
+    MALFORMED_TOKEN(401, "T003", "Token is Malformed"),
+    MISMATCH_TOKEN_SIGNATURE(401, "T004", "Token Signature mismatch")
     ;
 
     private final int status;
