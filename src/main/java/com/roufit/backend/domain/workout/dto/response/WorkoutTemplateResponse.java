@@ -1,19 +1,22 @@
 package com.roufit.backend.domain.workout.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WorkoutTemplateResponse {
 
     private Long id;
     private String templateName;
-    private LocalDate recentPerformDate;
+    private String recentPerformDate;
     List<SetTemplateResponse> setTemplateResponses = new ArrayList<>();
 
     @Builder
@@ -22,7 +25,7 @@ public class WorkoutTemplateResponse {
                                    List<SetTemplateResponse> setTemplateResponses) {
         this.id = id;
         this.templateName = templateName;
-        this.recentPerformDate = recentPerformDate;
+        this.recentPerformDate = recentPerformDate.toString();
         this.setTemplateResponses.addAll(setTemplateResponses);
     }
 }

@@ -1,23 +1,20 @@
 package com.roufit.backend.domain.workout.application.template;
 
 import com.roufit.backend.domain.user.application.UserService;
-import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.user.dto.SecurityUserDto;
 import com.roufit.backend.domain.workout.dao.template.WorkoutTemplateRepository;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.WorkoutTemplateRequest;
 import com.roufit.backend.domain.workout.dto.response.WorkoutTemplateResponse;
-import com.roufit.backend.global.error.exception.BusinessException;
 import com.roufit.backend.global.error.exception.DuplicateException;
 import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import com.roufit.backend.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,6 +41,7 @@ public class WorkoutTemplateService {
         setTemplateService.createSetTemplates(request.getSetTemplates(), newTemplate);
     }
 
+    @Cacheable(value = "WorkoutTemplateResponse", key = "#userDto.getEmail()", cacheManager = "defaultCacheManager")
     public WorkoutTemplateResponse findByUser(SecurityUserDto userDto) {
         WorkoutTemplate workoutTemplate = workoutTemplateRepository
                 .findTemplateAndSetByUserId(userDto.getId());
@@ -54,7 +52,14 @@ public class WorkoutTemplateService {
                     ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
             );
         }
-        return workoutTemplate.toDto();
+        WorkoutTemplateResponse response = workoutTemplate.toDto();
+        cachingTemplate(response, userDto.getEmail());
+        return response;
+    }
+
+    @CachePut(value = "WorkoutTemplateResponse", key = "#email", cacheManager = "defaultCacheManager")
+    public void cachingTemplate(WorkoutTemplateResponse templateResponse, String email) {
+        log.info("user : {} - caching template", email);
     }
 
     public WorkoutTemplate findById(final Long id) {
