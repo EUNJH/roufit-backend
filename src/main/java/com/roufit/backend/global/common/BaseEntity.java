@@ -1,9 +1,6 @@
 package com.roufit.backend.global.common;
 
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,15 +16,17 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @CreatedBy
+    @Column(updatable = false)
     private Long createdBy;
 
     @LastModifiedBy
     private Long modifiedBy;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
