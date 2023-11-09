@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,6 +42,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        if(!request.getRequestURI().startsWith("/api/v1")) {
+            log.info("인증이 필요하지 않는 API");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         log.info("start jwt filter");
 
         final String accessToken = jwtService.extractAccessToken(request).orElse(null);
@@ -103,5 +110,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return new UsernamePasswordAuthenticationToken(userDto,
                 null,
                 List.of(new SimpleGrantedAuthority(userDto.getRole().getKey())));
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String[] excludePath = {"/login", "/login/**", "/swagger-ui/**",
+                "**.html", "**.css", "**.js",
+                "/swagger-resources/**", "/webjars/**", "/v3/api-docs/**"};
+        String path = request.getRequestURI();
+        return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
 }

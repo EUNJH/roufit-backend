@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public class JwtService {
     private static final String EMAIL_CLAIM = "email";
     private static final String BEARER = "Bearer ";
 
+    @Autowired
     public JwtService(@Value("${jwt.secret-key}") String SECRET_KEY,
                       @Value("${jwt.access.expiration}") long accessExpiration,
                       @Value("${jwt.refresh.expiration}") long refreshExpiration,
@@ -95,7 +97,6 @@ public class JwtService {
         } catch (SignatureException e){
             throw new InvalidRequestException(ErrorCode.MISMATCH_TOKEN_SIGNATURE);
         }
-
     }
 
     private Date extractExpiration(String token) {
