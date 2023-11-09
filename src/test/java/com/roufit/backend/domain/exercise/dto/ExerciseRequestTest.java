@@ -22,7 +22,10 @@ class ExerciseRequestTest extends ValidationTestInitializer<ExerciseRequest> {
 
         //then
         assertThat(errorMessages).contains(
-            "0 이상이어야 합니다", "공백일 수 없습니다", "널이어서는 안됩니다"
+                "운동 이름은 빈 값일 수 없습니다.",
+                "운동 장비는 널 값일 수 없습니다.",
+                "운동 장비는 널 값일 수 없습니다.",
+                "카테고리 ID는 양수여야 합니다."
         );
     }
 }

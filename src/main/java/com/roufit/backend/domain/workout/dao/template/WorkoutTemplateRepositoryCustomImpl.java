@@ -22,37 +22,21 @@ public class WorkoutTemplateRepositoryCustomImpl implements WorkoutTemplateRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     public WorkoutTemplate findTemplateAndSetById(Long id) {
-        List<WorkoutTemplate> result = jpaQueryFactory.selectFrom(workoutTemplate)
+        return jpaQueryFactory.selectFrom(workoutTemplate)
                 .join(workoutTemplate.setTemplates, setTemplate)
                 .fetchJoin()
                 .join(setTemplate.exercise, exercise)
                 .fetchJoin()
                 .where(workoutTemplate.id.eq(id))
-                .fetch();
-        if(result.isEmpty()) {
-            throw new EntityNotFoundException(
-                    String.valueOf(id),
-                    ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
-            );
-        }
-
-        return result.get(0);
+                .fetchOne();
     }
 
     public WorkoutTemplate findTemplateAndSetByUserId(Long id) {
-        List<WorkoutTemplate> result = jpaQueryFactory.selectFrom(workoutTemplate)
+        return jpaQueryFactory.selectFrom(workoutTemplate)
                 .leftJoin(workoutTemplate.setTemplates, setTemplate)
                 .fetchJoin()
                 .leftJoin(setTemplate.exercise, exercise)
                 .where(workoutTemplate.user.id.eq(id))
-                .fetch();
-        if(result.isEmpty()) {
-            throw new EntityNotFoundException(
-                    String.valueOf(id),
-                    ErrorCode.WORKOUT_TEMPLATE_NOT_FOUND
-            );
-        }
-
-        return result.get(0);
+                .fetchOne();
     }
 }

@@ -4,28 +4,21 @@ import com.roufit.backend.global.security.jwt.JwtAuthenticationFilter;
 import com.roufit.backend.global.security.oauth2.handler.OAuth2AuthorizationFailureHandler;
 import com.roufit.backend.global.security.oauth2.handler.OAuth2AuthorizationSuccessHandler;
 import com.roufit.backend.global.security.oauth2.service.CustomOAuth2UserService;
+import com.roufit.backend.global.security.oauth2.service.RedisOAuth2AuthorizedClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -39,7 +32,6 @@ public class SecurityConfiguration {
     private final OAuth2AuthorizationFailureHandler oAuth2AuthorizationFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final ClientRegistrationRepository clientRegistrationRepository;
-    private final JdbcTemplate jdbcTemplate;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -91,7 +83,7 @@ public class SecurityConfiguration {
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService() {
-        return new JdbcOAuth2AuthorizedClientService(jdbcTemplate, clientRegistrationRepository);
+        return new RedisOAuth2AuthorizedClientService(clientRegistrationRepository);
     }
 
 }

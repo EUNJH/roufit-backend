@@ -44,7 +44,7 @@ public class SetTemplateService {
 
     public SetTemplate findById(Long id) {
         return setTemplateRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.SET_TEMPLATE_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.SET_TEMPLATE_NOT_FOUND));
     }
 
     public List<SetTemplate> findAllByIds(final List<Long> ids) {

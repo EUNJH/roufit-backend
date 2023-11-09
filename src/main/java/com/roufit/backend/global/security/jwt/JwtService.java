@@ -1,15 +1,17 @@
 package com.roufit.backend.global.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.roufit.backend.global.error.exception.ErrorCode;
+import com.roufit.backend.global.error.exception.InvalidRequestException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,23 +28,28 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret-key}")
+
     private String SECRET_KEY;
-
-    @Value("${jwt.access.expiration}")
     private long accessExpiration;
-
-    @Value("${jwt.refresh.expiration}")
     private long refreshExpiration;
-
-    @Value("${jwt.access.header}")
     private String accessHeader;
-
-    @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
     private static final String EMAIL_CLAIM = "email";
     private static final String BEARER = "Bearer ";
+
+    @Autowired
+    public JwtService(@Value("${jwt.secret-key}") String SECRET_KEY,
+                      @Value("${jwt.access.expiration}") long accessExpiration,
+                      @Value("${jwt.refresh.expiration}") long refreshExpiration,
+                      @Value("${jwt.access.header}") String accessHeader,
+                      @Value("${jwt.refresh.header}") String refreshHeader) {
+        this.SECRET_KEY = SECRET_KEY;
+        this.accessExpiration = accessExpiration;
+        this.refreshExpiration = refreshExpiration;
+        this.accessHeader = accessHeader;
+        this.refreshHeader = refreshHeader;
+    }
 
     public String extractSubject(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -81,7 +88,15 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            return extractExpiration(token).before(new Date());
+        } catch (ExpiredJwtException e){
+            throw new InvalidRequestException(ErrorCode.EXPIRED_TOKEN);
+        } catch (MalformedJwtException e){
+            throw new InvalidRequestException(ErrorCode.MALFORMED_TOKEN);
+        } catch (SignatureException e){
+            throw new InvalidRequestException(ErrorCode.MISMATCH_TOKEN_SIGNATURE);
+        }
     }
 
     private Date extractExpiration(String token) {
@@ -129,7 +144,7 @@ public class JwtService {
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(refreshToken -> refreshToken.startsWith(BEARER))
-                .map(refreshToken -> refreshToken.replace(BEARER, ""));
+                .filter(accessToken -> accessToken.startsWith(BEARER))
+                .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 }
