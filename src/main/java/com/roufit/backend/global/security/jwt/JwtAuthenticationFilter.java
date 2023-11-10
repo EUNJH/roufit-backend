@@ -109,7 +109,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private Authentication getAuthentication(SecurityUserDto userDto) {
         return new UsernamePasswordAuthenticationToken(userDto,
                 null,
-                List.of(new SimpleGrantedAuthority(userDto.getRole().getKey())));
+                List.of(new SimpleGrantedAuthority(userDto.getRole().getAuthority())));
     }
 
     @Override
