@@ -44,7 +44,8 @@ public enum ErrorCode {
     NOT_ACCESS_TOKEN(400, "T001", "Not Contain AccessToken"),
     EXPIRED_TOKEN(401, "T002", "Token is Expired"),
     MALFORMED_TOKEN(401, "T003", "Token is Malformed"),
-    MISMATCH_TOKEN_SIGNATURE(401, "T004", "Token Signature mismatch")
+    MISMATCH_TOKEN_SIGNATURE(401, "T004", "Token Signature mismatch"),
+    ACCESS_DENIED(403, "T005", "User Do Not Have Permission")
     ;
 
     private final int status;
