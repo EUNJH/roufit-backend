@@ -54,6 +54,17 @@ class JwtServiceTest {
     }
 
     @Test
+    public void 토큰값_검증() throws Exception {
+        //given
+        JwtService testService =
+                new MockJwtService("nmPJ1F3J/tgjE8AlR5/ZrH51uBUmKvmynHt4SpakJFQ=") //test1
+                        .jwtService;
+        String token = "token";
+        //when & then
+        assertThrows(InvalidRequestException.class, () -> testService.isTokenValid(token));
+    }
+
+    @Test
     public void 토큰_키검증() throws Exception {
         //given
         JwtService testService =
