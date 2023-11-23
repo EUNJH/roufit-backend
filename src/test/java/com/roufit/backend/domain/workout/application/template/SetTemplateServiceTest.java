@@ -4,6 +4,8 @@ import com.roufit.backend.domain.exercise.application.ExerciseFindService;
 import com.roufit.backend.domain.workout.dao.template.SetTemplateRepository;
 import com.roufit.backend.domain.workout.domain.template.InitTemplate;
 import com.roufit.backend.domain.workout.domain.template.SetTemplate;
+import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
+import com.roufit.backend.domain.workout.dto.request.SetTemplateRequest;
 import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,42 @@ class SetTemplateServiceTest {
     private SetTemplateRepository setTemplateRepository;
     @Mock
     private ExerciseFindService exerciseFindService;
+
+    @Test
+    public void create_정상동작() throws Exception {
+        //given
+        List<SetTemplateRequest> request = List.of(
+                SetTemplateRequest.builder()
+                        .exerciseId(1L)
+                        .goalRepetition(10)
+                        .setCount(5)
+                        .increaseOffset(1)
+                        .restPeriod(60)
+                        .build(),
+                SetTemplateRequest.builder()
+                        .exerciseId(2L)
+                        .goalRepetition(10)
+                        .setCount(5)
+                        .increaseOffset(5)
+                        .restPeriod(60)
+                        .build()
+        );
+        given(setTemplateRepository.saveAll(any())).willAnswer(t -> {
+            List<SetTemplate> arguments = (List<SetTemplate>) t.getArguments()[0];
+            return arguments;
+        });
+        //when
+        List<SetTemplate> setTemplates =
+                setTemplateService.createSetTemplates(request, new WorkoutTemplate());
+        //then
+        assertThat(setTemplates.size()).isEqualTo(2);
+        for (int i = 0; i < setTemplates.size(); i++) {
+             assertThat(request.get(i).getGoalRepetition())
+                     .isEqualTo(setTemplates.get(i).getGoalRepetition());
+            assertThat(request.get(i).getIncreaseOffset())
+                    .isEqualTo(setTemplates.get(i).getIncreaseOffset());
+        }
+    }
 
     @Test
     public void findById_있을때() throws Exception {

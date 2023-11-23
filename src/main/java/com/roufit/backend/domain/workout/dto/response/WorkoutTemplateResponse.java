@@ -25,7 +25,7 @@ public class WorkoutTemplateResponse {
                                    List<SetTemplateResponse> setTemplateResponses) {
         this.id = id;
         this.templateName = templateName;
-        this.recentPerformDate = recentPerformDate.toString();
+        this.recentPerformDate = recentPerformDate != null ? recentPerformDate.toString() : null;
         this.setTemplateResponses.addAll(setTemplateResponses);
     }
 }

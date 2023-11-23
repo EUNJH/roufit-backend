@@ -3,6 +3,7 @@ package com.roufit.backend.domain.workout.application.template;
 import com.roufit.backend.domain.user.application.UserService;
 import com.roufit.backend.domain.user.dto.SecurityUserDto;
 import com.roufit.backend.domain.workout.dao.template.WorkoutTemplateRepository;
+import com.roufit.backend.domain.workout.domain.template.SetTemplate;
 import com.roufit.backend.domain.workout.domain.template.WorkoutTemplate;
 import com.roufit.backend.domain.workout.dto.request.WorkoutTemplateRequest;
 import com.roufit.backend.domain.workout.dto.response.WorkoutTemplateResponse;
@@ -16,6 +17,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -26,7 +29,7 @@ public class WorkoutTemplateService {
     private final SetTemplateService setTemplateService;
 
     @Transactional
-    public void create(WorkoutTemplateRequest request, SecurityUserDto userDto) {
+    public WorkoutTemplateResponse create(WorkoutTemplateRequest request, SecurityUserDto userDto) {
         if(workoutTemplateRepository.existsByUserId(userDto.getId())) {
             log.warn("[user id : " + userDto.getId() + "]의 운동 템플릿이 이미 존재합니다.");
             throw new DuplicateException(userDto.getEmail(), ErrorCode.USER_MORE_THAN_ONE_TEMPLATE);
@@ -36,9 +39,13 @@ public class WorkoutTemplateService {
                 .templateName(request.getTemplateName())
                 .user(userService.getReferenceById(userDto.getId()))
                 .build();
-        workoutTemplateRepository.save(newTemplate);
 
-        setTemplateService.createSetTemplates(request.getSetTemplates(), newTemplate);
+        workoutTemplateRepository.save(newTemplate);
+        List<SetTemplate> setTemplates = setTemplateService
+                .createSetTemplates(request.getSetTemplates(), newTemplate);
+        newTemplate.addSet(setTemplates);
+
+        return newTemplate.toDto();
     }
 
     @Cacheable(value = "WorkoutTemplateResponse", key = "#userDto.getEmail()", cacheManager = "defaultCacheManager")

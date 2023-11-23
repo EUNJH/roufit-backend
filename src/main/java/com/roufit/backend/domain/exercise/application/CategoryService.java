@@ -18,12 +18,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void create(CategoryRequest dto) {
+    public Category create(CategoryRequest dto) {
         Category parent = null;
         if(dto.getParentId() != null) {
             parent = findById(dto.getParentId());
         }
-        categoryRepository.save(dto.toEntity(parent));
+        return categoryRepository.save(dto.toEntity(parent));
     }
 
 

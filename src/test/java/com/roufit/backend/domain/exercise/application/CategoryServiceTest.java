@@ -3,6 +3,8 @@ package com.roufit.backend.domain.exercise.application;
 import com.roufit.backend.domain.exercise.dao.category.CategoryRepository;
 import com.roufit.backend.domain.exercise.domain.CategoryBuilder;
 import com.roufit.backend.domain.exercise.domain.category.Category;
+import com.roufit.backend.domain.exercise.domain.category.CategoryLevel;
+import com.roufit.backend.domain.exercise.dto.request.CategoryRequest;
 import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,41 @@ class CategoryServiceTest {
     @BeforeEach
     public void init() {
         builder = new CategoryBuilder();
+    }
+
+    @Test
+    public void create_부모카테고리_있을떄() throws Exception {
+        //given
+        CategoryRequest request = new CategoryRequest(1L, "test");
+        given(categoryRepository.findById(any()))
+                .willAnswer(t -> {
+                    Long parentId = t.getArgument(0);
+                    return Optional.of(Category.builder()
+                            .id(parentId)
+                            .title("parent")
+                            .parent(null)
+                            .build());
+                });
+        given(categoryRepository.save(any())).willAnswer(t -> t.getArgument(0));
+        //when
+        Category category = categoryService.create(request);
+        //then
+        assertThat(category.getTitle()).isEqualTo(request.getTitle());
+        assertThat(category.getParent().getId()).isEqualTo(request.getParentId());
+        assertThat(category.getLevel()).isEqualTo(CategoryLevel.CATEGORY2);
+    }
+
+    @Test
+    public void create_부모카테고리_없을떄() throws Exception {
+        //given
+        CategoryRequest request = new CategoryRequest(null, "test");
+        given(categoryRepository.save(any())).willAnswer(t -> t.getArgument(0));
+        //when
+        Category category = categoryService.create(request);
+        //then
+        assertThat(category.getTitle()).isEqualTo(request.getTitle());
+        assertThat(category.getParent()).isEqualTo(null);
+        assertThat(category.getLevel()).isEqualTo(CategoryLevel.CATEGORY1);
     }
 
     @Test
