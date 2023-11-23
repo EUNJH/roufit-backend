@@ -2,10 +2,9 @@ package com.roufit.backend.global.security.jwt;
 
 import com.roufit.backend.domain.user.application.TokenService;
 import com.roufit.backend.domain.user.application.UserService;
-import com.roufit.backend.domain.user.dao.UserRepository;
+import com.roufit.backend.domain.user.domain.Token;
 import com.roufit.backend.domain.user.domain.User;
 import com.roufit.backend.domain.user.dto.SecurityUserDto;
-import com.roufit.backend.global.error.exception.EntityNotFoundException;
 import com.roufit.backend.global.error.exception.ErrorCode;
 import com.roufit.backend.global.error.exception.InvalidRequestException;
 import jakarta.servlet.FilterChain;
@@ -25,7 +24,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
@@ -73,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void checkRefreshTokenAndRegeneratedToken(String refreshToken,
-                                                     HttpServletResponse response) {
+                                                       HttpServletResponse response) {
         log.info("Refresh 토큰 확인 및 검증");
 
         jwtService.isTokenValid(refreshToken);

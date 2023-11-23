@@ -18,22 +18,22 @@ public class TokenService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
 
-    public void updateRefreshToken(String email, String refreshToken) {
+    public Token updateRefreshToken(String email, String refreshToken) {
         Token token = tokenRepository.findByUserEmail(email);
         if(token == null) {
             log.info("새로운 토큰 저장");
             User findUser = userRepository.findByEmail(email)
                     .orElseThrow(NoSuchElementException::new);
-            tokenRepository.save(Token.builder()
+            return tokenRepository.save(Token.builder()
                             .refreshToken(refreshToken)
                             .expired(false)
                             .revoked(false)
                             .user(findUser)
                             .build()
             );
-            return;
         }
         log.info("기존 토큰 업데이트");
         token.updateToken(refreshToken);
+        return token;
     }
 }
