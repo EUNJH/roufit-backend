@@ -45,7 +45,7 @@ public class InitTemplate {
         workoutTemplate = WorkoutTemplate.builder()
                 .templateName("test")
                 .user(new User())
-                .setTemplates(setTemplates)
                 .build();
+        workoutTemplate.addSet(setTemplates);
     }
 }

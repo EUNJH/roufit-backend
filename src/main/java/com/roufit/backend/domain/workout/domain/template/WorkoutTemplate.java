@@ -36,10 +36,9 @@ public class WorkoutTemplate extends BaseEntity {
     private User user;
 
     @Builder
-    public WorkoutTemplate(String templateName, User user, List<SetTemplate> setTemplates) {
+    public WorkoutTemplate(String templateName, User user) {
         this.templateName = templateName;
         this.user = user;
-        this.setTemplates = setTemplates;
     }
 
     public WorkoutTemplateResponse toDto() {
@@ -55,5 +54,9 @@ public class WorkoutTemplate extends BaseEntity {
 
     public void updatePerformDate(LocalDateTime startDate) {
         this.recentPerformDate = startDate.toLocalDate();
+    }
+
+    public void addSet(List<SetTemplate> setTemplate) {
+        setTemplates.addAll(setTemplate);
     }
 }

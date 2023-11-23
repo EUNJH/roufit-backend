@@ -35,15 +35,21 @@ class WorkoutTemplateServiceTest {
     @Test
     public void create_성공() throws Exception {
         //given
+        InitTemplate initTemplate = new InitTemplate();
         given(workoutTemplateRepository.existsByUserId(any()))
                 .willReturn(false);
         WorkoutTemplateRequest request = WorkoutTemplateRequest.builder()
                 .templateName("test")
                 .build();
-        //when & then
-        workoutTemplateService.create(request,
+        given(setTemplateService.createSetTemplates(any(),any()))
+                .willReturn(initTemplate.setTemplates);
+        //when
+        WorkoutTemplateResponse response = workoutTemplateService.create(request,
                 SecurityUserDto.builder().id(1L).build());
-
+        //then
+        assertThat(response.getTemplateName()).isEqualTo(request.getTemplateName());
+        assertThat(response.getSetTemplateResponses().size())
+                .isEqualTo(initTemplate.setTemplates.size());
     }
 
     @Test
