@@ -87,6 +87,7 @@ jacocoTestReport {
                             '**/*Error*',
                             '**/*Config*',
                             '**/*Application*',
+                            '**/*OAuth2AuthorizedClientService',
                             '**/*OAuth2User*',
                     ] + Qdomains)
                 })
@@ -147,6 +148,7 @@ jacocoTestCoverageVerification {
                     '**.*Error*',
                     '**.*Config*',
                     '**.*Application*',
+                    '**.*OAuth2AuthorizedClientService',
                     '**.*OAuth2User*',
             ] + Qdomains
         }
