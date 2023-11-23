@@ -93,7 +93,7 @@ class ExerciseControllerTest {
         given(exerciseFindService.findByCategory(any()))
                 .willReturn(List.of(response1, response2));
         //when & then
-        MvcResult result = mockMvc.perform(get("/api/v1/exercise/category/3")
+        MvcResult result = mockMvc.perform(get("/api/v1/exercise?category=3")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

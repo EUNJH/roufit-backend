@@ -23,7 +23,7 @@ public class CategoryBuilder {
         parentCategory3 = Category.builder()
                 .id(2L)
                 .parent(parentCategory2)
-                .title("등")
+                .title("광배근")
                 .build();
     }
 }

@@ -11,4 +11,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long>, Exerc
 
     boolean existsByName(String name);
     Optional<Exercise> findByName(String name);
+    List<Exercise> findAllByIdIn(List<Long> ids);
 }
