@@ -45,23 +45,22 @@ public class HabitTrack {
     }
 
     public void updateConsecutiveDays(List<HabitTrack> lastThreeDays) {
-        HabitTrack recentHabit = getRecentHabit(lastThreeDays);
-        if(recentHabit == null) {
+        if(lastThreeDays == null) {
             this.consecutiveDays = 1;
             this.consecutiveStartDate = this.recordDate;
             return;
         }
+        HabitTrack recentHabit = getRecentHabit(lastThreeDays);
         this.consecutiveDays = calculateConsecutiveDays(recentHabit);
         this.consecutiveStartDate = recentHabit.getConsecutiveStartDate();
     }
 
     private int calculateConsecutiveDays(HabitTrack recentHabit) {
-        return recentHabit.getConsecutiveDays() + calculateDays(recentHabit.getRecordDate(), LocalDate.now());
+        return recentHabit.getConsecutiveDays() + calculateDays(recentHabit.getRecordDate(), this.recordDate);
     }
 
     private HabitTrack getRecentHabit(List<HabitTrack> habitTracks) {
         return habitTracks.stream()
-                .filter(habitTrack -> !habitTrack.recordDate.equals(recordDate))
                 .max(Comparator.comparing(HabitTrack::getRecordDate))
                 .orElse(null);
     }
