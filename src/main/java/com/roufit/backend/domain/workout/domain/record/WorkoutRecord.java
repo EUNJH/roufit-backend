@@ -8,8 +8,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -36,6 +39,10 @@ public class WorkoutRecord extends BaseEntity {
     private LocalDateTime endTime;
 
     private Boolean isCompleted;
+
+    @BatchSize(size = 100)
+    @OneToMany(mappedBy = "workoutRecord")
+    List<SetRecord> setRecords = new ArrayList<>();
 
     @Builder
     public WorkoutRecord(User user, WorkoutTemplate workoutTemplate, WorkoutRecordRequest request) {

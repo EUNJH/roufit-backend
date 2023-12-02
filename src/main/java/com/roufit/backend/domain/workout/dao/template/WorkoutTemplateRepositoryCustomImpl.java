@@ -23,6 +23,7 @@ public class WorkoutTemplateRepositoryCustomImpl implements WorkoutTemplateRepos
 
     public WorkoutTemplate findTemplateAndSetById(Long id) {
         return jpaQueryFactory.selectFrom(workoutTemplate)
+                .distinct()
                 .join(workoutTemplate.setTemplates, setTemplate)
                 .fetchJoin()
                 .join(setTemplate.exercise, exercise)
@@ -33,9 +34,11 @@ public class WorkoutTemplateRepositoryCustomImpl implements WorkoutTemplateRepos
 
     public WorkoutTemplate findTemplateAndSetByUserId(Long id) {
         return jpaQueryFactory.selectFrom(workoutTemplate)
+                .distinct()
                 .leftJoin(workoutTemplate.setTemplates, setTemplate)
                 .fetchJoin()
                 .leftJoin(setTemplate.exercise, exercise)
+                .fetchJoin()
                 .where(workoutTemplate.user.id.eq(id))
                 .fetchOne();
     }
