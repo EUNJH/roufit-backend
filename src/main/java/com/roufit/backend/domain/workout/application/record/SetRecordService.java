@@ -21,9 +21,9 @@ public class SetRecordService {
     private final SetRecordRepository setRecordRepository;
 
     @Transactional
-    public void createAll(WorkoutRecord workoutRecord,
-                          WorkoutRecordRequest request,
-                          WorkoutTemplate template) {
+    public List<SetRecord> createAll(WorkoutRecord workoutRecord,
+                                     WorkoutRecordRequest request,
+                                     WorkoutTemplate template) {
         List<SetTemplate> setTemplates = template.getSetTemplates();
         List<SetRecord> setRecords = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class SetRecordService {
             });
         }
 
-        setRecordRepository.saveAll(setRecords);
+        return setRecordRepository.saveAll(setRecords);
     }
 
 }

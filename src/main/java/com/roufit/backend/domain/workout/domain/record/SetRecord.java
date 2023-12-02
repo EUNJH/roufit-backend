@@ -33,6 +33,7 @@ public class SetRecord extends BaseEntity {
     @JoinColumn(name = "set_template_id")
     private SetTemplate setTemplate;
 
+    private String exerciseName;
     private Integer setCount;
 
     private Integer restPeriod;
@@ -65,6 +66,7 @@ public class SetRecord extends BaseEntity {
         this.goalTime = setTemplate.getGoalTime();
         this.additionalWeight = setTemplate.getAdditionalWeight();
         this.exercise = setTemplate.getExercise();
+        this.exerciseName = setTemplate.getExercise().getName();
     }
 
     public void checkIncreasingPerformance() {
